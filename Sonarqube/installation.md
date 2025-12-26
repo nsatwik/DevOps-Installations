@@ -98,7 +98,6 @@ sudo unzip sonarqube-9.9.3.79811.zip
 ```
 **✅ 20. Move the unzipped files to /opt/sonarqube directory**
 ```bash
-cd /opt
 sudo mv sonarqube-9.9.3.79811.zip sonarqube
 sudo mv sonarqube /opt/
 ```
