@@ -100,6 +100,7 @@ sudo unzip sonarqube-9.9.3.79811.zip
 ```bash
 sudo mv sonarqube-9.9.3.79811.zip sonarqube
 sudo mv sonarqube /opt/
+cd /opt
 ```
 **✅ 21. Add SonarQube Group and User**
 **Create a dedicated user and group for SonarQube**
