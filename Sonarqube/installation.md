@@ -27,15 +27,42 @@ Add at bottom:
 vm.max_map_count=262144
 ```
 
-**✅ 4. Update the package lists**
+**✅ STEP 4 – Install PostgreSQL**
+
 ```bash
-sudo apt update
+sudo apt install postgresql postgresql-contrib -y
+```
+Create DB + user
+```bash
+sudo -i -u postgres
+createuser sonar
+createdb sonarqube
+psql
+```
+Inside psql
+```bash
+ALTER USER sonar WITH ENCRYPTED PASSWORD 'StrongPassword123';
+GRANT ALL PRIVILEGES ON DATABASE sonarqube TO sonar;
+\q
+exit
 ```
 
-**✅ 5.Install the latest version of PostgreSQL**
- **If you want a specific version, use 'postgresql-17' or similar instead of 'postgresql'**
+**✅ STEP 5 – Download SonarQube**
+
+First confirm architecture
 ```bash
-sudo apt -y install postgresql
+uname -m
+```
+
+Must be
+x86_64
+
+Now Download
+```bash
+cd /opt
+sudo wget https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-9.9.8.100196.zip
+sudo unzip sonarqube-9.9.8.100196.zip
+sudo mv sonarqube-9.9.8.100196 sonarqube
 ```
 
 **✅ 6. Enable the database server to start automatically on reboot**
