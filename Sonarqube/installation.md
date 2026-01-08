@@ -55,6 +55,7 @@ uname -m
 ```
 
 Must be
+
 x86_64
 
 Now Download
@@ -74,7 +75,7 @@ sudo chmod -R 755 /opt/sonarqube
 
 **✅ STEP 7 – Configure DB in SonarQube**
 ```bash
-sudo nano /opt/sonarqube/conf/sonar.properties
+sudo vi /opt/sonarqube/conf/sonar.properties
 ```
 Set
 ```bash
