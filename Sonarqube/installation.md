@@ -6,28 +6,25 @@ sudo apt update && sudo apt upgrade -y
 sudo apt install unzip wget curl -y
 
 ```
-**✅ 1. Install OpenJDK 17 or above**
+**✅ STEP 2 – Install Java 17 (MANDATORY)**
 
-
-Install OpenJDK 17.
+SonarQube 9.9 requires Java 17
 ```bash
 apt-get install openjdk-17-jdk -y
+java --version
 ```
 
 **----------------------------------------------------------------------------------------**
 
-**✅ 2. Import the repository signing key**
-```bash
-sudo apt install curl ca-certificates
-sudo install -d /usr/share/postgresql-common/pgdg
-sudo curl -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc --fail https://www.postgresql.org/media/keys/ACCC4CF8.asc
-```
- 
-**✅ 3. Create the repository configuration file**
+**✅ STEP 3 – Kernel Tuning (Elasticsearch WILL crash without this)**
 
 ```bash
-. /etc/os-release
-sudo sh -c "echo 'deb [signed-by=/usr/share/postgresql-common/pgdg/apt.postgresql.org.asc] https://apt.postgresql.org/pub/repos/apt $VERSION_CODENAME-pgdg main' > /etc/apt/sources.list.d/pgdg.list"
+sudo vi /etc/sysctl.conf
+```
+Add at bottom:
+
+```bash
+vm.max_map_count=262144
 ```
 
 **✅ 4. Update the package lists**
