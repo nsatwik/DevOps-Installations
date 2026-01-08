@@ -1,3 +1,10 @@
+**✅ STEP 1 – Prerequisites**
+Update the server
+```bash
+sudo apt update && sudo apt upgrade -y
+sudo apt install unzip wget curl -y
+
+```
 **✅ 1. Install OpenJDK 17 or above**
 
 
