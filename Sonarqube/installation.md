@@ -65,191 +65,85 @@ sudo unzip sonarqube-9.9.8.100196.zip
 sudo mv sonarqube-9.9.8.100196 sonarqube
 ```
 
-**✅ 6. Enable the database server to start automatically on reboot**
+**✅ STEP 6 – Create sonar user & fix ownership**
 ```bash
-systemctl enable postgresql
-```
-**✅ 7. Start the database server**
-```bash
-systemctl start postgresql
-```
-**✅ 8. Change the default PostgreSQL password**
-**use the same password in step 12**
-```bash
-passwd postgres
-```
-**✅ 9. Switch to the postgres user**
-```bash
-su - postgres
-```
-**✅ 10. Create a user named sonar**
-```bash
-createuser sonar
-```
-**✅ 11. Log in to PostgreSQL**
-```bash
-psql
-```
-**✅ 12. Set a password for the sonar user**
-```bash
-ALTER USER sonar WITH ENCRYPTED password 'my_strong_password';
-```
-**✅ 13. Create a sonarqube database and set the owner to sonar**
-```bash
-CREATE DATABASE sonarqube OWNER sonar;
-```
-**✅ 14. Grant all the privileges on the sonarqube database to the sonar user**
-```bash
-GRANT ALL PRIVILEGES ON DATABASE sonarqube to sonar;
-```
-**✅ 15. Exit PostgreSQL**
-```bash
-\q
-```
-**✅ 16.Return to your non-root sudo user account**
-```bash
-exit
-```
-**---------------------------------------------------------------------------------------**
-
-
-**✅ 17.Download and Install SonarQube**
-  **install the zip utility, which is needed to unzip the SonarQube files**
-```bash
-sudo apt-get install zip -y
-```
- **✅ 18. Locate the latest download URL from the SonarQube official download page**
-
-**Download the SonarQube distribution files**
-```bash
-sudo wget https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-9.9.3.79811.zip
-```
-**✅ 19. Unzip the downloaded file**
-```bash
-sudo unzip sonarqube-9.9.3.79811.zip
-```
-**✅ 20. Move the unzipped files to /opt/sonarqube directory**
-```bash
-sudo mv sonarqube-9.9.3.79811.zip sonarqube
-sudo mv sonarqube /opt/
-cd /opt
-```
-**✅ 21. Add SonarQube Group and User**
-**Create a dedicated user and group for SonarQube**
-**Create a sonar group**
-```bash
-sudo groupadd sonar
-```
-**✅ 22.Create a sonar user and set /opt/sonarqube as the home directory**
-```bash
-sudo useradd -d /opt/sonarqube -g sonar sonar
-```
-**✅ 22. Grant the sonar user access to the /opt/sonarqube directory**
-```bash
-sudo chown sonar:sonar /opt/sonarqube -R
+sudo useradd -r -M -d /opt/sonarqube -s /bin/false sonar
+sudo chown -R sonar:sonar /opt/sonarqube
+sudo chmod -R 755 /opt/sonarqube
 ```
 
-**---------------------------------------------------------------------------------------**
-
-**✅ 23. Configure SonarQube**
- **Edit the SonarQube configuration file**
+**✅ STEP 7 – Configure DB in SonarQube**
 ```bash
-sudo vi /opt/sonarqube/conf/sonar.properties
+sudo nano /opt/sonarqube/conf/sonar.properties
 ```
-**✅ 24. Find the following lines**
-**
-**#sonar.jdbc.username=**
-**#sonar.jdbc.password=**
-**Uncomment the lines, and add the database user and password you created in Step 2**
+Set
 ```bash
 sonar.jdbc.username=sonar
-sonar.jdbc.password=my_strong_password
+sonar.jdbc.password=StrongPassword123
+sonar.jdbc.url=jdbc:postgresql://localhost/sonarqube
 ```
-**✅ 25. Below those two lines, add the sonar.jdbc.url**
+
+**✅ STEP 8 – Verify sonar.sh exists**
+
+Run
 ```bash
-sonar.jdbc.url=jdbc:postgresql://localhost:5432/sonarqube
+ls -l /opt/sonarqube/bin/linux-x86-64/
 ```
-Save and exit the file
 
-
-**✅ 27. Edit the sonar script file**
+You MUST see
 ```bash
-vi /opt/sonarqube/bin/linux-x86-64/sonar.sh
+sonar.sh
 ```
-add the below line, in the first line itself
+Make executable
 ```bash
-RUN_AS_USER=“sonar”
+sudo chmod +x /opt/sonarqube/bin/linux-x86-64/sonar.sh
 ```
 
-
-**Save and exit the file**
-
-
-**---------------------------------------------------------------------------------------**
-
-**✅ 28. Setup Systemd service**
- **Create a systemd service file to start SonarQube at system boot**
+**✅ STEP 9 – Create systemd service**
 ```bash
-sudo vi /etc/systemd/system/sonar.service
+sudo vi /etc/systemd/system/sonarqube.service
 ```
 
-**Paste the following lines to the file**
+Paste exactly
+
 ```bash
 [Unit]
 Description=SonarQube service
-After=syslog.target network.target
+After=network.target postgresql.service
 
 [Service]
 Type=forking
-
-ExecStart=/opt/sonarqube/bin/linux-x86-64/sonar.sh start
-ExecStop=/opt/sonarqube/bin/linux-x86-64/sonar.sh stop
-
 User=sonar
 Group=sonar
-Restart=always
-
+ExecStart=/opt/sonarqube/bin/linux-x86-64/sonar.sh start
+ExecStop=/opt/sonarqube/bin/linux-x86-64/sonar.sh stop
 LimitNOFILE=65536
 LimitNPROC=4096
+Restart=always
 
 [Install]
 WantedBy=multi-user.target
 ```
-**Save and exit the file**
-**Enable the SonarQube service to run at system startup**
-```bash
-sudo systemctl enable sonar
- ```
-**Start the SonarQube service**
-```bash
-sudo systemctl start sonar
-```
-**Check the service status**
-```bash
-sudo systemctl status sonar
-```
-**---------------------------------------------------------------------------------------**
 
-**✅ 29. Modify Kernel System Limits**
-**SonarQube uses Elasticsearch to store its indices in an MMap FS directory**
-**It requires some changes to the system defaults**
+**✅ STEP 10 – Register & Start**
 
- **Edit the sysctl configuration file**
 ```bash
-sudo vi /etc/sysctl.conf
+sudo systemctl daemon-reload
+sudo systemctl enable sonarqube
+sudo systemctl start sonarqube
 ```
-**Add the following lines**
+Check
 ```bash
-vm.max_map_count=262144
-fs.file-max=65536
-ulimit -n 65536
-ulimit -u 4096
+sudo systemctl status sonarqube
 ```
-**Save and exit the file**
-**Reboot the system to apply the changes**
 
+**✅ STEP 11 – Firewall**
 
-After rebooting, go to security group of EC2 instance and edit inbound rules and add Custom TCP of 9000, 
+```bash
+sudo ufw allow 9000
+```
+
+Go to security group of EC2 instance and edit inbound rules and add Custom TCP of 9000, 
 because by default sonarqube runs on 9000 port. 
 Now ping with public ip address of EC2 instance,
 you will be redirected to login page
