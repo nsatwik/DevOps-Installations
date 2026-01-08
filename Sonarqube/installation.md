@@ -1,4 +1,5 @@
 **✅ STEP 1 – Prerequisites**
+
 Update the server
 ```bash
 sudo apt update && sudo apt upgrade -y
