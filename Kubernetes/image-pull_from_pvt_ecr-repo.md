@@ -40,8 +40,14 @@ spec:
         - containerPort: 80
 ```
 
-10. kubectl apply -f deployment.yaml
-11. kubectl create service nodeport nginx --tcp=80:80
-12. kubectl get svc
+```bash
+ kubectl apply -f deployment.yaml
+```
+```bash
+ kubectl create service nodeport nginx --tcp=80:80
+```
+```bash
+ kubectl get svc
+```
 13. ping node ip with svc port
 
