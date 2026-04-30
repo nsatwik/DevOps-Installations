@@ -9,7 +9,7 @@
 8. To check the secret key use this command 
      kubectl get secret or kubectl get secret -o yaml
 9. create a deployment file 
-
+```bash
 apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
 kind: Deployment
 metadata:
@@ -32,6 +32,7 @@ spec:
         imagePullPolicy: Always
         ports:
         - containerPort: 80
+```
 
 10. kubectl apply -f deployment.yaml
 11. kubectl create service nodeport nginx --tcp=80:80
