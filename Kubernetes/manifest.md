@@ -1,5 +1,6 @@
 Here's an example .yaml file that shows the required fields and object spec for a Kubernetes Deployment
 application/deployment.yaml 
+
 ```bash
 apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
 kind: Deployment
