@@ -1,3 +1,4 @@
+```bash
 pipeline {
     agent any
     stages {
@@ -19,6 +20,7 @@ pipeline {
         }
     }
 }
+```
 ##Steps:
 1. Go to manage jenkin, 
 2. install a plugin named "publish over ssh"
