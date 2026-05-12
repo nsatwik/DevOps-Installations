@@ -1,4 +1,5 @@
 ## Launch all necessary EC2 instances, and create tags like name, environment, role and project ##
+**Go to iam and create a role for EC2 with EC2READONLYACCESS, and attach this role to controller EC2**
 **Login to Controller or Master**
 **Now copy the keypair which is in pem format from local to Ansible controller**
 ```bash
