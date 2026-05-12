@@ -5,7 +5,7 @@
 scp -i mykey.pem mykey.pem ubuntu@pub.ip:/home/ubuntu/mykey.pem
 ```
 
-## Now Create a directory path 
+**Now Create a directory path**
 ```bash
 mkdir -p /opt/ansible
 cd ansible
