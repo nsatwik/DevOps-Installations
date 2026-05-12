@@ -35,9 +35,9 @@ vi /opt/ansible/ansible.cfg
 **paste this syntax**
 ```bash
 [defaults]
-inventory = /opt/ansible/ansible/inventory/aws_ec2.yml
+inventory = /opt/ansible/inventory/aws_ec2.yml
 remote_user = ubuntu ##or root as per the requirement
-private_key_file = /opt/ansible/ansible/keys/mykey.pem
+private_key_file = /opt/ansible/keys/mykey.pem
 host_key_checking = False
 deprecation_warnings = False
 ```
