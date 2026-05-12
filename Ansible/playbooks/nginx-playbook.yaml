@@ -1,0 +1,32 @@
+---
+- name: Install and configure nginx
+  hosts: role_ansible_node
+  become: true
+
+  tasks:
+
+    - name: Install nginx
+      apt:
+        name: nginx
+        state: present
+        update_cache: yes
+
+    - name: Start and enable nginx
+      service:
+        name: nginx
+        state: started
+        enabled: yes
+
+    - name: Create Hello World page
+      copy:
+        dest: /var/www/html/index.html
+        content: |
+          <html>
+          <head>
+              <title>Ansible Nginx</title>
+          </head>
+          <body>
+              <h1>Hello World from Ansible</h1>
+              <h2>Configured using Dynamic Inventory</h2>
+          </body>
+          </html>
