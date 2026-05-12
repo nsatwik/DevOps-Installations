@@ -20,5 +20,6 @@ chmod 400 mykey.pem
 ```bash
 apt update
 apt install python3-boto3 python3-botocore python3-pip awscli -y
+apt install ansible-core -y
 ansible-galaxy collection install amazon.aws
 ```
