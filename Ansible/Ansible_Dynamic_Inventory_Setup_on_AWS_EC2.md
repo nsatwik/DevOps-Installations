@@ -35,8 +35,8 @@ vi /opt/ansible/ansible.cfg
 **paste this syntax**
 ```bash
 [defaults]
-inventory = /opt/ansible/inventory/aws_ec2.yml
-remote_user = ubuntu ##or root as per the requirement
+inventory = /opt/ansible/inventory/aws_ec2.yaml
+remote_user = ubuntu
 private_key_file = /opt/ansible/keys/mykey.pem
 host_key_checking = False
 deprecation_warnings = False
@@ -55,3 +55,32 @@ export ANSIBLE_CONFIG=/opt/ansible/ansible.cfg
 ansible --version
 ```
 **You can see the path of ansible config_path=/opt/ansible**
+**Now Edit file in /opt/ansible/inventory/aws_ec2.yaml**
+```bash
+plugin: amazon.aws.aws_ec2
+
+regions:
+  - ap-south-1
+
+filters:
+  tag:project: demo
+  instance-state-name: running
+
+compose:
+  ansible_host: private_ip_address
+
+keyed_groups:
+  - key: tags.environment
+    prefix: env
+
+  - key: tags.role
+    prefix: role
+```
+**Now use this command and all the ec2 will be seen, confirming that all are communicating**
+```bash
+ansible-inventory --graph
+```
+Finally check 
+```bash
+ansible -m ping all
+```
