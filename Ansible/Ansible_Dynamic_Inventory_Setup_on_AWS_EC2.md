@@ -41,3 +41,17 @@ private_key_file = /opt/ansible/keys/mykey.pem
 host_key_checking = False
 deprecation_warnings = False
 ```
+**Set the Homepath for ansible**
+```bash
+vi ~/.bashrc
+```
+**Add this line**
+```bash
+export ANSIBLE_CONFIG=/opt/ansible/ansible.cfg
+```
+**Save and exit**
+**Now check**
+```bash
+ansible --version
+```
+**You can see the path of ansible config_path=/opt/ansible**
