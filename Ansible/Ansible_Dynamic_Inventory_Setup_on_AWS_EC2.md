@@ -23,3 +23,7 @@ apt install python3-boto3 python3-botocore python3-pip awscli -y
 apt install ansible-core -y
 ansible-galaxy collection install amazon.aws
 ```
+**Configure aws using access_keys, secret_access_keys & region which configured in iam**
+```bash
+aws configure
+```
