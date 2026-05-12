@@ -1,6 +1,6 @@
 ## Launch all necessary EC2 instances, and create tags like name, environment, role and project ##
-## Login to Controller or Master
-## Now copy the keypair which is in pem format from local to Ansible controller
+**Login to Controller or Master**
+**Now copy the keypair which is in pem format from local to Ansible controller**
 ```bash
 scp -i mykey.pem mykey.pem ubuntu@pub.ip:/home/ubuntu/mykey.pem
 ```
