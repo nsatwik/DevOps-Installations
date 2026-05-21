@@ -12,6 +12,8 @@ df -h /tmp
 
 
 **Make Permanent After Reboot**
+
+
 **Edit fstab**
 ```bash
 sudo vi /etc/fstab
