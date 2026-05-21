@@ -9,6 +9,8 @@ sudo mount -o remount,size=2G /tmp
 df -h /tmp
 ```
 **You should now see 2.0Gb**
+
+
 **Make Permanent After Reboot**
 **Edit fstab**
 ```bash
