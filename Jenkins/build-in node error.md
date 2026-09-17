@@ -3,7 +3,7 @@
 df -hT /tmp
 ```
 # Create systemd override directory
-sudo mkdir -p /etc/systemd/system/tmp.mount.d
+```sudo mkdir -p /etc/systemd/system/tmp.mount.d```
 
 # Edit /tmp mount configuration
 sudo vi /etc/systemd/system/tmp.mount.d/override.conf
