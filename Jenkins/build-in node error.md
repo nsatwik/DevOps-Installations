@@ -1,24 +1,13 @@
-## If Jenkins Build in node is not running due to /temp memory
-**Use these steps to resolve**
-**Run**
-```bash
-sudo mount -o remount,size=2G /tmp
+# Check current /tmp size
 ```
-**Verify**
-```bash
-df -h /tmp
+df -hT /tmp
 ```
-**You should now see 2.0Gb**
+# Create systemd override directory
+sudo mkdir -p /etc/systemd/system/tmp.mount.d
 
+# Edit /tmp mount configuration
+sudo vi /etc/systemd/system/tmp.mount.d/override.conf
 
-**Make Permanent After Reboot**
-
-
-**Edit fstab**
-```bash
-sudo vi /etc/fstab
-```
-**Add this line at the bottom, save, exit & restart. By now the error will be gone and the build it node will come up after restart**
-```bash
-/tmp tmpfs defaults,size=2G 0 0
-```
+Add
+[Mount]
+Options=mode=1777,strictatime,nosuid,nodev,size=2G,nr_inodes=1m,x-systemd.graceful-option=usrquota
